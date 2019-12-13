@@ -5,6 +5,7 @@ const { validating } = require('../tools/middleware');
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
+const sanitize = require('sanitize-filename');
 
 const API = require('../tools/torrents');
 
@@ -12,8 +13,6 @@ module.exports = () => {
   routes.get('/search/:search', async (req, res) => {
     const { search } = req.params;
     const { sort, sortOrder } = req.query;
-
-    console.log(sort, sortOrder);
 
     const data = await API.search(search, sort, sortOrder);
     return res.status(200).send(data);
@@ -30,7 +29,7 @@ module.exports = () => {
     const { torrents } = req.value;
 
     let promises = torrents.map(async e => {
-      const filepath = path.join(config.downloadLocation, e.name + '.torrent');
+      const filepath = path.join(config.downloadLocation, sanitize(e.name) + '.torrent');
       try {
         await API.download(e.url, filepath);
       } catch (e) {

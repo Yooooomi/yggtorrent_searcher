@@ -18,10 +18,10 @@ let allowedCORS = config.cors;
 
 if (allowedCORS === 'all') {
   allCors = true;
+} else {
+  if (process.env.CORS_WHITELIST) [allowedCORS] = papa.parse(process.env.CORS_WHITELIST).data;
+  else logger.warn('No allowed CORS found in env, using default ones');
 }
-
-if (process.env.CORS_WHITELIST) [allowedCORS] = papa.parse(process.env.CORS_WHITELIST).data;
-else logger.warn('No allowed CORS found in env, using default ones');
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
