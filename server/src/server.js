@@ -11,11 +11,12 @@ const cookies = require('cookie-session');
 const logger = require('./tools/logger');
 
 const API = require('./tools/torrents');
+const config = require('./config');
 
-let allowedCORS = ['http://localhost:3000'];
+let allowedCORS = config.cors;
 
 if (process.env.CORS_WHITELIST) [allowedCORS] = papa.parse(process.env.CORS_WHITELIST).data;
-else logger.warn('no allowed CORS found');
+else logger.warn('No allowed CORS found in env, using default ones');
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
