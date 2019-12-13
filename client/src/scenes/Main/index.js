@@ -17,7 +17,7 @@ class Main extends React.Component {
         this.state = {
             sort: 0,
             search: '',
-            results: mock,
+            results: [],
             sortOrder: 1,
         };
     }
@@ -25,10 +25,9 @@ class Main extends React.Component {
     search = async () => {
         const { search, sort, sortOrder } = this.state;
 
-        //const data = await API.search(search, sorts[sort], sortOrders[sortOrder]);
-        // console.log(JSON.stringify(data.data, null, ' '));
+        const data = await API.search(search, sorts[sort], sortOrders[sortOrder]);
 
-        this.setState({ results: mock });
+        this.setState({ results: data.data });
     }
 
     download = async () => {

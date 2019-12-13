@@ -9,8 +9,7 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
-COPY .eslintrc.yml .
 COPY src ./src/
 
 # Run application
-CMD npm start
+CMD mkdir -p /app/downloads && npm start

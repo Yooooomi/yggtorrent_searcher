@@ -8,7 +8,7 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
-COPY .eslintrc.yml .
+COPY public ./public/
 COPY src ./src/
 
 # Run application

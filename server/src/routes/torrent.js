@@ -31,8 +31,11 @@ module.exports = () => {
 
     let promises = torrents.map(async e => {
       const filepath = path.join(config.downloadLocation, e.name + '.torrent');
-      fs.createWriteStream(filepath);
-      await API.download(e.url, filepath);
+      try {
+        await API.download(e.url, filepath);
+      } catch (e) {
+        console.log('Could not download ' + e.name);
+      }
     });
     promises = await promises;
     return res.status(200).end();
