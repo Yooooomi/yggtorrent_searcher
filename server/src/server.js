@@ -13,7 +13,12 @@ const logger = require('./tools/logger');
 const API = require('./tools/torrents');
 const config = require('./config');
 
+let allCors = false;
 let allowedCORS = config.cors;
+
+if (allowedCORS === 'all') {
+  allCors = true;
+}
 
 if (process.env.CORS_WHITELIST) [allowedCORS] = papa.parse(process.env.CORS_WHITELIST).data;
 else logger.warn('No allowed CORS found in env, using default ones');
@@ -21,7 +26,9 @@ else logger.warn('No allowed CORS found in env, using default ones');
 app.use((req, res, next) => {
   const { origin } = req.headers;
 
-  if (allowedCORS && allowedCORS.indexOf(origin) > -1) res.setHeader('Access-Control-Allow-Origin', origin);
+  if (allCors || (allowedCORS && allowedCORS.indexOf(origin) > -1)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
 
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header(

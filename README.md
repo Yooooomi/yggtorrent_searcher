@@ -20,6 +20,7 @@ To choose your download location you need to edit the `docker-compose` file.
 Edit the left hand part of the line below `volumes` and provide a _valid_ path
 
 You can edit the CORS _ONLY_ by editing the docker-compose file under the environment path
+You can specify `all` if you don't want to bother with CORS
 
 Docker will launch two containers containing the client and the server
 
@@ -31,6 +32,7 @@ To choose your download location you need to edit the `config.js` file.
 Edit the `downloadLocation` variable. You can of course provide an environment variable.
 
 You can edit the CORS either by providing them in the environment under the form of `CORS_WHITELIST=http://localhost:5000,http://localhost:3000` _or_ by editing the `config.js` file.
+You can specify `all` if you don't want to bother with CORS
 
 #### Responsibility
 
