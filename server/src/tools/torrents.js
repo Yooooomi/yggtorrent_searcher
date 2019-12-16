@@ -4,11 +4,21 @@ const xpath = require('xpath');
 const dom = require('xmldom').DOMParser;
 
 const client = new YGG({
-    host: 'https://www.yggtorrent.ws/',
-    searchhost: 'https://www2.yggtorrent.ws/',
+    host: config.ygg.host,
+    searchhost: config.ygg.searchHost,
     username: config.username,
     password: config.password,
 });
+
+const getDownloadLocation = (category, subcategory, fullpath) => {
+    const dll = config.downloadLocation;
+
+    if (dll instanceof String) {
+        return dll;
+    } else if (dll instanceof Function) {
+        return dll(category, subcategory, fullpath);
+    }
+}
 
 const init = async () => new Promise((s, f) => {
     client.login(() => s());
@@ -33,6 +43,7 @@ const getTorrentSection = body => {
 };
 
 module.exports = {
+    getDownloadLocation,
     init,
     search,
     download,

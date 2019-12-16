@@ -6,21 +6,21 @@ const bodyparser = require('body-parser');
 
 const app = express();
 const helmet = require('helmet');
-const cookies = require('cookie-session');
 
 const logger = require('./tools/logger');
 
 const API = require('./tools/torrents');
 const config = require('./config');
+const initer = require('./tools/initer');
 
 let allCors = false;
-let allowedCORS = config.cors;
+let allowedCORS = process.env.CORS_WHITELIST || config.cors;
 
 if (allowedCORS === 'all') {
   allCors = true;
 } else {
-  if (process.env.CORS_WHITELIST) [allowedCORS] = papa.parse(process.env.CORS_WHITELIST).data;
-  else logger.warn('No allowed CORS found in env, using default ones');
+  [allowedCORS] = papa.parse(allowedCORS).data;
+  if (!allowedCORS) logger.warn('Failed to parse CORS, expect issues');
 }
 
 app.use((req, res, next) => {
@@ -48,13 +48,6 @@ app.use(cookieParser());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
-app.use(cookies({
-  domain: process.env.DOMAIN || '.',
-  name: 'session',
-  keys: ['keyy1', 'keyy2'],
-  maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-}));
-
 app.use(morgan('dev', {
   skip: (req) => {
     if (req.url === '/health') return true;
@@ -69,6 +62,11 @@ app.use(require('./routes/torrent')());
 app.get('/helloworld', (req, res) => {
   res.status(200).send('Hello, world!');
 });
+
+if (!initer()) {
+  logger.error('Something went wrong, quitting...');
+  return 1;
+}
 
 API.init().then(() => {
   app.listen(8081, () => logger.info('Listening on 8081'));

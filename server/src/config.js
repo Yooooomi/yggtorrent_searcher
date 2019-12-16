@@ -1,13 +1,11 @@
 const config = {
     // Use either the variable or the function to define downloadLocation
-    // If you run under Docker, please set only the String version to /app/downloads
+    // If ran in Docker, make sure the path is either available or mounted
 
-    // CHANGE THIS ONLY IF NOT RAN IN DOCKER
     // downloadLocation: '/app/downloads',
 
     // Function to predict where to store the .torrent file
-    // NOT AVAILABLE IF RAN IN DOCKER
-    // url will never have accents
+    // url, category, subcategory will never have accents
     downloadLocation: (category, subcategory, fullpath) => {
         if (category === 'filmvideo') {
             if (subcategory === 'serie-tv') return 'D:/Downloads/Video/series';
@@ -23,12 +21,20 @@ const config = {
 
     // The application will default the CORS to this variable,
     // However, it will prefer CORS in environment if available
-    // Environment CORS has to be of the form CORS_WHITELIST=http://localhost:5000,http://localhost:3000
+    // CORS has to be of the form http://localhost:5000,http://localhost:3000
+    // Environment variable is named CORS_WHITELIST
     // Setting 'all' will just allow all cors
     cors: 'all',
 
+    // YGGTorrent credentials
     username: 'username',
     password: 'password',
+
+    // Change this if YGG changes domain name
+    ygg: {
+        host: 'https://www.yggtorrent.ws/',
+        searchHost: 'https://www2.yggtorrent.ws/',
+    }
 };
 
 module.exports = config;

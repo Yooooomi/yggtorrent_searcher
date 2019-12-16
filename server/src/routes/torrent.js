@@ -14,16 +14,6 @@ const removeAccents = require('remove-accents');
 
 const request = require('request');
 
-const getDownloadLocation = (category, subcategory, fullpath) => {
-  const dll = config.downloadLocation;
-
-  if (dll instanceof String) {
-    return dll;
-  } else if (dll instanceof Function) {
-    return dll(category, subcategory, fullpath);
-  }
-}
-
 module.exports = () => {
   routes.get('/search/:search', async (req, res) => {
     const { search } = req.params;
@@ -55,7 +45,7 @@ module.exports = () => {
       // Remove the empty string because path starts with /
       paths.shift();
 
-      const dll = getDownloadLocation(paths[1], paths[2], url);
+      const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], url);
       const filepath = path.join(dll, sanitize(e.name) + '.torrent');
       try {
         await torrentsAPI.download(e.url, filepath);
