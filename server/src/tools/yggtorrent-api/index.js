@@ -61,7 +61,6 @@ class Ygg {
             }
             body = body.html;
             
-            // console.log(body);
             var $ = cheerio.load(body);
             var ratio = body.match(/Ratio : ([0-9\.]+)/)
             var results = {

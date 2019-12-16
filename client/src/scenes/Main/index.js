@@ -42,8 +42,6 @@ class Main extends React.Component {
     download = async () => {
         const { results } = this.state;
 
-        console.log('Download');
-
         const downloaded = results.filter(e => e.selected);
         const data = await API.download(downloaded.map(e => ({
             name: e.name,

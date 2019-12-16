@@ -85,7 +85,6 @@ module.exports = () => {
         jar: jar
       }, (err, response, body) => {
         try {
-          console.log(body);
           const torrentContent = torrentsAPI.getTorrentSection(body);
           return res.status(200).send(torrentContent.toString());
         } catch (e) {
