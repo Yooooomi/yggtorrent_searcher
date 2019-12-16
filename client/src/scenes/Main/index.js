@@ -43,7 +43,7 @@ class Main extends React.Component {
         const { results } = this.state;
 
         const downloaded = results.filter(e => e.selected);
-        const data = await API.download(downloaded.map(e => ({
+        await API.download(downloaded.map(e => ({
             name: e.name,
             url: e.downloadurl,
             pageUrl: e.url,

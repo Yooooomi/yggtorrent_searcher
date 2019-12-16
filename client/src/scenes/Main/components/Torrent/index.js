@@ -38,7 +38,7 @@ class Torrent extends React.Component {
     }
 
     render() {
-        const { torrent, className, onClick, header, showContent } = this.props;
+        const { torrent, className, onClick, header } = this.props;
         const { content } = this.state;
 
         if (header) {
@@ -65,7 +65,7 @@ class Torrent extends React.Component {
             );
         }
 
-        const { name, size, seed, leech, completed, age, url } = torrent;
+        const { name, size, seed, leech, completed } = torrent;
 
         return (
             <div className={className}>
