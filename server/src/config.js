@@ -1,8 +1,9 @@
 const config = {
     // Use either the variable or the function to define downloadLocation
+    // If you run under Docker, please set only the String version to /app/downloads
 
     // CHANGE THIS ONLY IF NOT RAN IN DOCKER
-    // downloadLocation: 'D:/Downloads',
+    // downloadLocation: '/app/downloads',
 
     // Function to predict where to store the .torrent file
     // NOT AVAILABLE IF RAN IN DOCKER
