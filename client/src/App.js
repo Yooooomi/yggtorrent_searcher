@@ -9,7 +9,7 @@ function App() {
       <header className="App-header">
         Torrent searcher
       </header>
-      <div>
+      <div className="App-content">
         <Main />
       </div>
       <footer className="App-footer">

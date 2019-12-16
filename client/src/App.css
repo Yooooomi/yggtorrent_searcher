@@ -32,8 +32,15 @@
   }
 }
 
+.App-content {
+  min-height: 70vh;
+}
+
 .App-footer {
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
   color: white;
 }
 
@@ -89,6 +96,15 @@ button:active {
 }
 
 .button-inverted:active {
+  border: solid 2px rgb(107, 107, 248);
+}
+
+.round-button {
+  cursor: pointer;
+  padding: 0px;
+  height: 25px;
+  width: 25px;
+  border-radius: 1000px;
   border: solid 2px rgb(107, 107, 248);
 }
 

@@ -16,8 +16,7 @@
     }
 }
 
-.root > * {
-    margin-right: 10px;
+.root * {
 }
 
 @media (max-width: 650px) {
@@ -61,6 +60,14 @@
 }
 
 @media (max-width: 650px) {
+    .sorts {
+        flex-direction: column;
+    }
+
+    .sorts * {
+        margin-bottom: 5px;
+    }
+
     .optionsHolder {
         display: block;
     }

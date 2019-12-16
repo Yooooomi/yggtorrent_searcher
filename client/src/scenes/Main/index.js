@@ -6,7 +6,7 @@ import Torrent from './components/Torrent';
 import mock from '../../services/mock.json';
 import cl from 'classnames';
 
-const sorts = ['seed', 'compl', 'age', 'size'];
+const sorts = ['none', 'seed', 'compl', 'age', 'size'];
 const sortOrders = ['asc', 'desc'];
 
 class Main extends React.Component {
@@ -17,15 +17,24 @@ class Main extends React.Component {
         this.state = {
             sort: 0,
             search: '',
-            results: [],
+            results: process.env.REACT_APP_DEV ? mock : [],
             sortOrder: 1,
         };
     }
 
-    search = async () => {
-        const { search, sort, sortOrder } = this.state;
+    search = async ev => {
+        ev.preventDefault();
 
-        const data = await API.search(search, sorts[sort], sortOrders[sortOrder]);
+        const { search, sort, sortOrder } = this.state;
+        let finalSort = sorts[sort];
+        let finalSortOrder = sortOrders[sortOrder];
+
+        if (finalSort === 'none') {
+            finalSort = undefined;
+            finalSortOrder = undefined;
+        }
+
+        const data = await API.search(search, finalSort, finalSortOrder);
 
         this.setState({ results: data.data });
     }
@@ -39,6 +48,7 @@ class Main extends React.Component {
         const data = await API.download(downloaded.map(e => ({
             name: e.name,
             url: e.downloadurl,
+            pageUrl: e.url,
         })));
         results.forEach(e => e.selected = false);
         this.setState({ results });
@@ -62,7 +72,7 @@ class Main extends React.Component {
         const { search, sort, sortOrder, results } = this.state;
 
         return (
-            <div className={s.root}>
+            <form className={s.root} onSubmit={this.search}>
                 Search
                 <div className={s.searchHolder}>
                     <input name="search" value={search} onChange={this.update} placeholder="Search" className={s.input} />
@@ -75,7 +85,7 @@ class Main extends React.Component {
                     </div>
                     <div className={s.buttons}>
                         {results.filter(e => e.selected).length > 0 && <button onClick={this.download} className={cl(s.button, s.download)}>Download</button>}
-                        <button className={s.button} onClick={this.search}>Search</button>
+                        <button className={s.button} type="submit">Search</button>
                     </div>
                 </div>
                 <div className={s.torrentsHolder}>
@@ -86,7 +96,7 @@ class Main extends React.Component {
                         ))
                     }
                 </div>
-            </div>
+            </form>
         )
     }
 }
