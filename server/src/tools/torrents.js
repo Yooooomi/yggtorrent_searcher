@@ -1,5 +1,5 @@
 const YGG = require('./yggtorrent-api');
-const config = require('../config');
+const config = require('/app/config/config');
 const xpath = require('xpath');
 const dom = require('xmldom').DOMParser;
 

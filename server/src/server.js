@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const logger = require('./tools/logger');
 
 const API = require('./tools/torrents');
-const config = require('./config');
+const config = require('/app/config/config');
 const initer = require('./tools/initer');
 
 let allCors = false;

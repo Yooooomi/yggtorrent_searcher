@@ -1,5 +1,5 @@
 const logger = require('./logger');
-const config = require('../config');
+const config = require('/app/config/config');
 const torrentsAPI = require('./torrents');
 const fs = require('fs');
 const path = require('path');

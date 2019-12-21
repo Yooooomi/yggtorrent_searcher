@@ -4,7 +4,7 @@ const Joi = require('joi');
 const { validating } = require('../tools/middleware');
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
+const config = require('/app/config/config');
 const sanitize = require('sanitize-filename');
 
 const torrentsAPI = require('../tools/torrents');
