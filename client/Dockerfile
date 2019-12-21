@@ -3,6 +3,8 @@ FROM node:10-alpine
 
 WORKDIR /app
 
+RUN apk add make gcc g++ python
+
 # Install dependencies
 COPY package.json .
 COPY package-lock.json .
