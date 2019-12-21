@@ -13,7 +13,7 @@ RUN npm install
 COPY public ./public/
 COPY src ./src/
 
-RUN yarn install -g serve
+RUN yarn global add serve
 RUN yarn build
 
 # Run application
