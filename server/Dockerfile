@@ -13,4 +13,4 @@ RUN npm install
 COPY src ./src/
 
 # Run application
-CMD mkdir -p /app/downloads && /app/run.sh
+CMD mkdir -p /app/downloads && sh /app/run.sh

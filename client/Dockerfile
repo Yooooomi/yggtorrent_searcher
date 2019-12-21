@@ -18,4 +18,4 @@ RUN yarn global add serve
 RUN yarn build
 
 # Run application
-CMD /app/run.sh
+CMD sh /app/run.sh
