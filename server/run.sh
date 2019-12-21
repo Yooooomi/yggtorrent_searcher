@@ -6,6 +6,6 @@ then
     export SERVER_PORT="8081"
 fi
 
-echo "Server port: $SERVER_PORT"
+echo "Server port: ${SERVER_PORT}"
 
 npm start
