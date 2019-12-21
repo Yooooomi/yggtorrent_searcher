@@ -8,4 +8,4 @@ fi
 
 echo "Client port: $WEB_PORT"
 
-serve -l "0.0.0.0:${WEB_PORT}" build/
+serve -l "tcp://0.0.0.0:${WEB_PORT}" build/
