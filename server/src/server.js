@@ -68,8 +68,10 @@ if (!initer()) {
   return 1;
 }
 
+const port = process.env.SERVER_PORT || 8081;
+
 API.init().then(() => {
-  app.listen(8081, () => logger.info('Listening on 8081'));
+  app.listen(port, () => logger.info(`Listening on ${port}`));
 });
 
 module.exports = app;

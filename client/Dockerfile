@@ -11,5 +11,8 @@ RUN npm install
 COPY public ./public/
 COPY src ./src/
 
+RUN yarn install -g serve
+RUN yarn build
+
 # Run application
-CMD npm start
+CMD run.sh
