@@ -8,6 +8,7 @@ RUN apk add make gcc g++ python
 # Install dependencies
 COPY package.json .
 COPY package-lock.json .
+COPY run.sh .
 RUN npm install
 
 COPY public ./public/
@@ -17,4 +18,4 @@ RUN yarn global add serve
 RUN yarn build
 
 # Run application
-CMD run.sh
+CMD /app/run.sh
