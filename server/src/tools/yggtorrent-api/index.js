@@ -2,7 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var jar = request.jar();
 const fs = require('fs');
-request.defaults({followAllRedirects: true});
+request.defaults({ followAllRedirects: true });
 
 class Ygg {
     constructor(config) {
@@ -15,7 +15,7 @@ class Ygg {
     login(callback) {
         request({
             method: 'POST',
-            url: this.host+'/user/login',
+            url: this.host + '/user/login',
             headers: {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
                 'x-requested-with': 'XMLHttpRequest',
@@ -28,7 +28,7 @@ class Ygg {
         }, (err, response, body) => {
             if (err) return callback(err);
             if (response.statusCode / 100 >= 4) {
-                var error = new Error('Bad status code : '+response.statusCode+'. Bad username/password ?')
+                var error = new Error('Bad status code : ' + response.statusCode + '. Bad username/password ?')
                 error.body = body;
                 return callback(error);
             }
@@ -60,7 +60,7 @@ class Ygg {
                 callback(e);
             }
             body = body.html;
-            
+
             var $ = cheerio.load(body);
             var ratio = body.match(/Ratio : ([0-9\.]+)/)
             var results = {
