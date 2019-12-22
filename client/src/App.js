@@ -5,11 +5,11 @@ import API from './services/API';
 
 class App extends React.Component {
   async componentDidMount() {
-    const apiInited = await API.init();
+    try {
+      const apiInited = await API.init();
 
-    if (apiInited) {
       console.log('API successfully initialized to ', apiInited);
-    } else {
+    } catch (e) {
       console.error('Could not initialize API');
     }
   }
