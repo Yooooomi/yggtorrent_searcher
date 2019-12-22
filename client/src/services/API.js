@@ -20,6 +20,7 @@ const API = {
         }).then(() => {
             if (resolved) return;
             resolved = true;
+            axios = remote;
             s(process.env.REACT_APP_API);
         });
         local.get('/health').catch(() => {
@@ -28,6 +29,7 @@ const API = {
         }).then(() => {
             if (resolved) return;
             resolved = true;
+            axios = local;
             s(process.env.REACT_APP_API_LOCAL);
         });
 
