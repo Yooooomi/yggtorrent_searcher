@@ -16,7 +16,7 @@ services:
     environment:
       - CORS_WHITELIST=http://localhost:5000,http://localhost:3000
     volumes:
-      - /home/timothee/Downloads:/app/downloads:z
-      - config/:/app/config
+      - /home/pi/Documents/torrents/downloads:/data:z
+      - ./config/:/app/config
     ports:
       - "8081:8081"

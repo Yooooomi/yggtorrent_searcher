@@ -8,15 +8,10 @@ const config = {
     // url, category, subcategory will never have accents
     downloadLocation: (category, subcategory, fullpath) => {
         if (category === 'filmvideo') {
-            if (subcategory === 'serie-tv') return 'D:/Downloads/Video/series';
-            if (subcategory === 'film') return 'D:/Downloads/Video/films';
-            if (subcategory === 'spectacle') return 'D:/Downloads/Video/spectacles';
-        } else if (category === 'jeu-video') {
-            if (subcategory === 'windows') return 'D:/Downloads/Games/Windows';
-            if (subcategory === 'nintendo') return 'D:/Downloads/Games/Nintendo';
+            if (subcategory === 'serie-tv') return '/data/torrents/series';
+            if (subcategory === 'film') return '/data/torrents/film';
         }
-        if (fullpath === '/torrent/filmvidéo/film/524893-dora+and+the+lost+city+of+gold+dora+et+la+cité+perdue+2019+multi+complete+bd50+avc+truehd') return 'D:/Downloads/BestMovie';
-        return 'D:/Downloads';
+        return '/data/torrents/misc';
     },
 
     // The application will default the CORS to this variable,
@@ -27,8 +22,8 @@ const config = {
     cors: 'all',
 
     // YGGTorrent credentials
-    username: 'username',
-    password: 'password',
+    username: 'Obsinex',
+    password: '66Darkreblochon',
 
     // Change this if YGG changes domain name
     ygg: {
