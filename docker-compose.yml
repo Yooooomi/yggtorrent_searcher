@@ -6,7 +6,8 @@ services:
     links:
       - server
     environment:
-      - REACT_APP_API=http://server:8081
+      - REACT_APP_API=http://domainname:8081
+      - REACT_APP_API_LOCAL=http://192.168.1.6:8081
     ports:
       - "3000:3000"
 
