@@ -10,6 +10,17 @@ const client = new YGG({
     password: config.password,
 });
 
+let lastLogin = null;
+
+const checkLogin = async () => {
+    if (lastLogin === null) {
+        await init();
+        lastLogin = Date.now();
+    } else if (lastLogin + 60 * 60 * 1000 < Date.now()) {
+        await init();
+    }
+}
+
 const getDownloadLocation = (category, subcategory, fullpath) => {
     const dll = config.downloadLocation;
 
@@ -24,13 +35,14 @@ const init = async () => new Promise((s, f) => {
     client.login(() => s());
 });
 
-const search = (search, sort, order) => new Promise((s, f) => {
+const search = (search, sort, order) => new Promise(async (s, f) => {
     client.search(search, (err, data) => {
         s(data);
     }, sort, order);
 });
 
 const download = (url, filepath) => new Promise(async (s, f) => {
+    await checkLogin();
     await client.download(url, filepath, s);
 });
 
