@@ -6,13 +6,12 @@ const testAPI = async api => {
     const ax = Axios.create({
         baseURL: api,
     });
-    try {
-        await ax.get('/health');
-        return true;
-    } catch (e) {
-        return false;
-    }
+    await ax.get('/health');
+    return api;
 }
+
+const invert = pr => new Promise((s, f) => pr.then(f, s));
+const firstOf = ps => invert(Promise.all(ps.map(invert)));
 
 const API = {
     init: async () => {
@@ -23,9 +22,10 @@ const API = {
             const hostsArray = hosts.split(',');
             if (hostsArray.length > 0) {
                 let promises = hostsArray.map(e => testAPI(e));
-                promises = await Promise.all(promises);
-                const index = promises.indexOf(e => e === true);
-                finalUrl = hostsArray[index];
+                const result = await firstOf(promises.map(invert));
+                if (result instanceof String) {
+                    finalUrl = result;
+                }
             }
         }
         axios = Axios.create({

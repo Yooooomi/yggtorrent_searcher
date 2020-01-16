@@ -24,7 +24,7 @@ if (allowedCORS === 'all') {
 }
 
 app.use((req, res, next) => {
-  const { origin } = req.headers;
+  let origin = req.headers.origin || req.headers.host;
 
   if (allCors || (allowedCORS && allowedCORS.indexOf(origin) > -1)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
