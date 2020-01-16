@@ -22,7 +22,7 @@ const API = {
             const hostsArray = hosts.split(',');
             if (hostsArray.length > 0) {
                 let promises = hostsArray.map(e => testAPI(e));
-                const result = await firstOf(promises.map(invert));
+                const result = await firstOf(promises);
                 if (result instanceof String) {
                     finalUrl = result;
                 }
