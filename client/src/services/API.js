@@ -31,6 +31,7 @@ const API = {
         axios = Axios.create({
             baseURL: finalUrl,
         })
+        return finalUrl;
     },
     search: (search, sort, sortOrder) => axios.get(`/search/${search}`, {
         params: {
