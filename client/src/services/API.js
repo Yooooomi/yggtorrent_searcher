@@ -2,38 +2,36 @@ import Axios from 'axios';
 
 let axios;
 
+const testAPI = async api => {
+    const ax = Axios.create({
+        baseURL: api,
+    });
+    try {
+        await ax.get('/health');
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 const API = {
-    init: () => new Promise((s, f) => {
-        let resolved = false;
-        let failed = 0;
+    init: async () => {
+        let finalUrl = 'http://localhost:3000';
+        const hosts = process.env.REACT_APP_APIS;
 
-        const remote = Axios.create({
-            baseURL: process.env.REACT_APP_API,
-        });
-        const local = Axios.create({
-            baseURL: process.env.REACT_APP_API_LOCAL,
-        });
-
-        remote.get('/health').catch(() => {
-            failed += 1;
-            if (failed === 2) return f();
-        }).then(() => {
-            if (resolved) return;
-            resolved = true;
-            axios = remote;
-            s(process.env.REACT_APP_API);
-        });
-        local.get('/health').catch(() => {
-            failed += 1;
-            if (failed === 2) return f();
-        }).then(() => {
-            if (resolved) return;
-            resolved = true;
-            axios = local;
-            s(process.env.REACT_APP_API_LOCAL);
-        });
-
-    }),
+        if (hosts) {
+            const hostsArray = hosts.split(',');
+            if (hostsArray.length > 0) {
+                let promises = hostsArray.map(e => testAPI(e));
+                promises = await Promise.all(promises);
+                const index = promises.indexOf(e => e === true);
+                finalUrl = hostsArray[index];
+            }
+        }
+        axios = Axios.create({
+            baseURL: finalUrl,
+        })
+    },
     search: (search, sort, sortOrder) => axios.get(`/search/${search}`, {
         params: {
             sort, sortOrder,

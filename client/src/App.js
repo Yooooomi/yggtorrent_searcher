@@ -7,7 +7,7 @@ class App extends React.Component {
   async componentDidMount() {
     try {
       const apiInited = await API.init();
-
+      
       console.log('API successfully initialized to ', apiInited);
     } catch (e) {
       console.error('Could not initialize API');

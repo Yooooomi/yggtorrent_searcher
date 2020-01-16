@@ -3,7 +3,7 @@ const httpStatus = require('http-status-codes');
 
 module.exports = () => {
   routes.get('/health', (req, res) => {
-    return res.status(200).end();
+    return res.status(httpStatus.OK).end();
   });
 
   return routes;

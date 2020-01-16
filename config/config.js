@@ -22,8 +22,8 @@ const config = {
     cors: 'all',
 
     // YGGTorrent credentials
-    username: 'Obsinex',
-    password: '66Darkreblochon',
+    username: 'username',
+    password: 'password',
 
     // Change this if YGG changes domain name
     ygg: {

@@ -8,4 +8,5 @@ fi
 
 echo "Client port: $WEB_PORT"
 
-PORT="$WEB_PORT" npm start
+npm build
+serve -l "0.0.0.0:${WEB_PORT}" build/
