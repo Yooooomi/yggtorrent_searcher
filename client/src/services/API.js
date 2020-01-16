@@ -23,7 +23,7 @@ const API = {
             if (hostsArray.length > 0) {
                 let promises = hostsArray.map(e => testAPI(e));
                 const result = await firstOf(promises);
-                if (result instanceof String) {
+                if (typeof result === 'string') {
                     finalUrl = result;
                 }
             }
