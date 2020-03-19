@@ -19,9 +19,12 @@ const verify = () => {
     }
     logger.info('Verifying default location for writing: ' + defaultLocation);
     const testpath = path.join(defaultLocation, '__test');
+    const tmpTestPath = path.join(config.tempLocation, '__test');
     try {
         fs.writeFileSync(testpath, 'testing');
         fs.unlinkSync(testpath);
+        fs.writeFileSync(tmpTestPath, 'testing');
+        fs.unlinkSync(tmpTestPath);
     } catch (e) {
         logger.error('Could not write at the default location ' + defaultLocation);
         return false;

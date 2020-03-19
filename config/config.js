@@ -4,6 +4,8 @@ const config = {
 
     // downloadLocation: '/app/downloads',
 
+    tempLocation: '/tmp',
+
     // Function to predict where to store the .torrent file
     // url, category, subcategory will never have accents
     downloadLocation: (category, subcategory, fullpath) => {

@@ -46,7 +46,7 @@ module.exports = () => {
       paths.shift();
 
       const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], url);
-      const tempPath = path.join('/tmp', sanitize(e.name) + '.torrent');
+      const tempPath = path.join(config.tempLocation, sanitize(e.name) + '.torrent');
       const filepath = path.join(dll, sanitize(e.name) + '.torrent');
       try {
         await torrentsAPI.download(e.url, tempPath);
