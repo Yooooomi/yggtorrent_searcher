@@ -2,20 +2,22 @@ version: '3.3'
 
 services:
   client:
+    restart: always
     build: client/
     links:
       - server
     environment:
-      - REACT_APP_APIS=http://domainname:8081,http://192.168.1.6:8081
+      - REACT_APP_APIS=https://home.yooooomi.com/searcher_api,https://192.168.1.6/searcher_api
     ports:
       - "3000:3000"
 
   server:
     build: server/
+    restart: always
     environment:
-      - CORS_WHITELIST=http://localhost:5000,http://localhost:3000
+      - CORS_WHITELIST=all
     volumes:
-      - /home/pi/Documents/torrents/downloads:/data:z
+      - /home/ubuntu/Documents/torrents/downloads/torrents:/data:z
       - ./config/:/app/config
     ports:
       - "8081:8081"

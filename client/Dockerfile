@@ -8,6 +8,7 @@ RUN apk add make gcc g++ python
 # Install dependencies
 COPY package.json .
 COPY package-lock.json .
+RUN npm install -g serve
 RUN npm install
 
 COPY public ./public/

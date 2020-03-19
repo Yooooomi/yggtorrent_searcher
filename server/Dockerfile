@@ -4,6 +4,7 @@ FROM node:10-alpine
 WORKDIR /app
 
 # Install dependencies
+RUN npm config set unsafe-perm true
 RUN npm install -g mocha nodemon
 COPY package.json .
 COPY package-lock.json .

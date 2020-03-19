@@ -7,9 +7,9 @@ const config = {
     // Function to predict where to store the .torrent file
     // url, category, subcategory will never have accents
     downloadLocation: (category, subcategory, fullpath) => {
-        if (category === 'filmvideo') {
-            if (subcategory === 'serie-tv') return '/data/torrents/series';
-            if (subcategory === 'film') return '/data/torrents/film';
+        if (category === 'film-video' || category === 'filmvideo') {
+            if (subcategory === 'serie-tv' || subcategory === 'serietv') return '/data/torrents/series';
+            if (subcategory === 'film') return '/data/torrents/films';
         }
         return '/data/torrents/misc';
     },
@@ -22,13 +22,13 @@ const config = {
     cors: 'all',
 
     // YGGTorrent credentials
-    username: 'username',
-    password: 'password',
+    username: 'Obsinex',
+    password: '66Darkreblochon',
 
     // Change this if YGG changes domain name
     ygg: {
-        host: 'https://www.yggtorrent.ws/',
-        searchHost: 'https://www2.yggtorrent.ws/',
+        host: 'https://www.yggtorrent.se/',
+        searchHost: 'https://www2.yggtorrent.se/',
     }
 };
 

@@ -8,5 +8,5 @@ fi
 
 echo "Client port: $WEB_PORT"
 
-npm build
-serve -l "0.0.0.0:${WEB_PORT}" build/
+npm run build
+serve -l "tcp://0.0.0.0:${WEB_PORT}" build/
