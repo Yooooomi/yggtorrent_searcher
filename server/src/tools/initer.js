@@ -23,13 +23,19 @@ const verify = () => {
     try {
         fs.writeFileSync(testpath, 'testing');
         fs.unlinkSync(testpath);
-        fs.writeFileSync(tmpTestPath, 'testing');
-        fs.unlinkSync(tmpTestPath);
+        logger.info('Successfully tested default location ' + defaultLocation);
     } catch (e) {
         logger.error('Could not write at the default location ' + defaultLocation);
         return false;
     }
-    logger.info('Successfully tested default location ' + defaultLocation);
+    try {
+        fs.writeFileSync(tmpTestPath, 'testing');
+        fs.unlinkSync(tmpTestPath);
+        logger.info('Successfully tested temporary location ' + defaultLocation);
+    } catch (e) {
+        logger.error('Could not write at the temporary location ' + defaultLocation);
+        return false;
+    }
     return true;
 }
 
