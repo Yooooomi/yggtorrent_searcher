@@ -46,9 +46,11 @@ module.exports = () => {
       paths.shift();
 
       const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], url);
+      const tempPath = path.join('/tmp', sanitize(e.name) + '.torrent');
       const filepath = path.join(dll, sanitize(e.name) + '.torrent');
       try {
-        await torrentsAPI.download(e.url, filepath);
+        await torrentsAPI.download(e.url, tempPath);
+        fs.renameSync(tempPath, filepath);
       } catch (err) {
         console.log('Could not download ' + e.name, err);
       }
