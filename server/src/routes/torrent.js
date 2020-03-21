@@ -63,7 +63,8 @@ module.exports = () => {
     const { url } = req.body;
 
     try {
-      let decoded = decodeURI(removeAccents(url));
+      let decoded = decodeURIComponent(url);
+      decoded = removeAccents(decoded);
 
       console.log('Downloading ', decoded);
       const jar = request.jar();
