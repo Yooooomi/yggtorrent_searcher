@@ -41,7 +41,7 @@ const API = {
     download: (torrentUrls) => axios.post('/dl', {
         torrents: torrentUrls,
     }),
-    downloadContent: (url) => axios.get('/getpage/' + encodeURIComponent(url)),
+    downloadContent: (url) => axios.post('/getpage/', { url: encodeURIComponent(url) }),
 };
 
 export default API;

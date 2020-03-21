@@ -6,7 +6,17 @@ import Torrent from './components/Torrent';
 import mock from '../../services/mock.json';
 import cl from 'classnames';
 
-const sorts = ['none', 'seed', 'compl', 'age', 'size'];
+const sorts = [
+    { label: 'none', value: 'none' },
+    { label: 'name', value: 'name' },
+    { label: 'seed', value: 'seed' },
+    { label: 'leech', value: 'leech' },
+    { label: 'compl', value: 'completed' },
+    { label: 'age', value: 'publish_date' },
+    { label: 'age', value: 'publish_date' },
+    { label: 'size', value: 'size' },
+];
+
 const sortOrders = ['asc', 'desc'];
 
 class Main extends React.Component {
@@ -18,7 +28,7 @@ class Main extends React.Component {
             sort: 0,
             search: '',
             results: process.env.REACT_APP_DEV ? mock : [],
-            sortOrder: 1,
+            sortOrder: 2,
         };
     }
 
@@ -26,7 +36,7 @@ class Main extends React.Component {
         ev.preventDefault();
 
         const { search, sort, sortOrder } = this.state;
-        let finalSort = sorts[sort];
+        let finalSort = sorts[sort].value;
         let finalSortOrder = sortOrders[sortOrder];
 
         if (finalSort === 'none') {
@@ -78,7 +88,7 @@ class Main extends React.Component {
                 Sort
                 <div className={s.optionsHolder}>
                     <div className={s.sorts}>
-                        <ButtonsRadio className={s.sort} choices={sorts} selected={sort} onChange={this.changeSort} />
+                        <ButtonsRadio className={s.sort} choices={sorts.map(e => e.label)} selected={sort} onChange={this.changeSort} />
                         <ButtonsRadio tight choices={sortOrders} selected={sortOrder} onChange={this.changeSortOrder} />
                     </div>
                     <div className={s.buttons}>

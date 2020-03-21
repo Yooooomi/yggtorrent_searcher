@@ -59,8 +59,8 @@ module.exports = () => {
     return res.status(200).end();
   });
 
-  routes.get('/getpage/:url', async (req, res) => {
-    const { url } = req.params;
+  routes.post('/getpage/', async (req, res) => {
+    const { url } = req.body;
 
     try {
       let decoded = decodeURI(removeAccents(url));
@@ -74,7 +74,7 @@ module.exports = () => {
         headers: {
           'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
         },
-        jar: jar
+        jar,
       }, (err, response, body) => {
         try {
           const torrentContent = torrentsAPI.getTorrentSection(body);
