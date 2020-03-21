@@ -25,10 +25,10 @@ class Main extends React.Component {
         super(props);
 
         this.state = {
-            sort: 0,
+            sort: 2,
             search: '',
             results: process.env.REACT_APP_DEV ? mock : [],
-            sortOrder: 2,
+            sortOrder: 1,
         };
     }
 
