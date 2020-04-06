@@ -1,16 +1,18 @@
-const request = require('cloudscraper');
+const YGG = require('./src/tools/yggtorrent-api');
+const config = require('../config/config');
 
 async function main() {
-  const jar = request.jar();
-  const body = await request.post({
-    url: 'https://www.yggtorrent.se' + '/user/login',
-    formData: {
-      'id': 'Obsinex',
-      'pass': '66Darkreblochon',
-    },
-    jar,
+  const client = new YGG({
+    host: config.ygg.host,
+    searchhost: config.ygg.searchHost,
+    username: config.username,
+    password: config.password,
   });
-  console.log(body, jar);
+
+  let lastLogin = null;
+
+  const a = await client.login();
+  console.log(a);
 }
 
 main();

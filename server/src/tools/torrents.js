@@ -12,6 +12,8 @@ const client = new YGG({
 
 let lastLogin = null;
 
+const init = () => client.login();
+
 const checkLogin = async () => {
     if (lastLogin === null) {
         await init();
@@ -30,10 +32,6 @@ const getDownloadLocation = (category, subcategory, fullpath) => {
         return dll(category, subcategory, fullpath);
     }
 }
-
-const init = async () => new Promise((s, f) => {
-    client.login(() => s());
-});
 
 const search = (search, sort, order) => new Promise(async (s, f) => {
     client.search(search, (err, data) => {
