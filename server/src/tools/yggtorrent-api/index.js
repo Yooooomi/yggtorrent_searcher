@@ -32,7 +32,7 @@ class Ygg {
     }).pipe(fs.createWriteStream(filepath));
   }
 
-  search(name, sort = '', order = 'desc') {
+  async search(name, sort = '', order = 'desc') {
     const body = await request({
       method: 'GET',
       url: this.searchhost + '/engine/search',
