@@ -68,19 +68,18 @@ module.exports = () => {
 
       console.log('Downloading ', decoded);
       const jar = request.jar();
-      request({
+      const body = await request({
         method: 'GET',
         url: decoded,
         jar,
-      }, (err, response, body) => {
-        try {
-          const torrentContent = torrentsAPI.getTorrentSection(body);
-          return res.status(200).send(torrentContent.toString());
-        } catch (e) {
-          console.error(e);
-          return res.status(500).end();
-        }
       });
+      try {
+        const torrentContent = torrentsAPI.getTorrentSection(body);
+        return res.status(200).send(torrentContent.toString());
+      } catch (e) {
+        console.error(e);
+        return res.status(500).end();
+      }
     } catch (e) {
       console.error(e);
       return res.status(500).end();

@@ -1,4 +1,8 @@
-const removeAccents = require('remove-accents');
+const request = require('cloudscraper');
 
-console.log(removeAccents(process.argv[2]));
-console.log(decodeURIComponent(process.argv[2]));
+async function main() {
+  const a = await request.get('https://google.com');
+  console.log(a);
+}
+
+main();
