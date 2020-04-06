@@ -16,10 +16,6 @@ class Ygg {
         request({
             method: 'POST',
             url: this.host + '/user/login',
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
-                'x-requested-with': 'XMLHttpRequest',
-            },
             formData: {
                 'id': this.username,
                 'pass': this.password,
@@ -41,10 +37,6 @@ class Ygg {
         request({
             method: 'GET',
             url: this.host + '/user/ajax_usermenu',
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
-                'x-requested-with': 'XMLHttpRequest',
-            },
             jar: jar
         }, (err, response, body) => {
             if (err) return callback(err);
@@ -77,9 +69,6 @@ class Ygg {
         request({
             method: 'GET',
             url: url,
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
-            },
             jar: jar
         }, cb).pipe(fs.createWriteStream(filepath));
     }
@@ -93,9 +82,6 @@ class Ygg {
                 do: 'search',
                 sort,
                 order,
-            },
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
             },
             jar: jar
         }, (err, response, body) => {
