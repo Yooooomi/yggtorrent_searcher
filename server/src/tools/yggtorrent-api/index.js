@@ -2,7 +2,12 @@ var request = require('../cloudscraper');
 var cheerio = require('cheerio');
 var jar = request.jar();
 const fs = require('fs');
-request.defaults({ followAllRedirects: true });
+
+request.defaultParams.jar = jar;
+request.defaultParams.maxRedirects = 100;
+request.defaultParams.followAllRedirects = true;
+request.defaultParams.withCredentials = true;
+request.defaultParams.headers['user-agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36';
 
 class Ygg {
   constructor(config) {
@@ -20,7 +25,6 @@ class Ygg {
         'id': this.username,
         'pass': this.password,
       },
-      jar: jar
     });
   }
 
@@ -28,13 +32,11 @@ class Ygg {
     return request({
       method: 'GET',
       url: url,
-      jar: jar
     }).pipe(fs.createWriteStream(filepath));
   }
 
   async search(name, sort = '', order = 'desc') {
-    const body = await request({
-      method: 'GET',
+    const body = await request.get({
       url: this.searchhost + '/engine/search',
       qs: {
         name: name,
@@ -42,7 +44,6 @@ class Ygg {
         sort,
         order,
       },
-      jar: jar
     });
 
     var $ = cheerio.load(body);
@@ -63,5 +64,7 @@ class Ygg {
     });
   }
 }
+
+Ygg.jar = jar;
 
 module.exports = Ygg;

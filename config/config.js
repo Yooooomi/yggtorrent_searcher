@@ -29,8 +29,8 @@ const config = {
 
     // Change this if YGG changes domain name
     ygg: {
-        host: 'https://www.yggtorrent.se/',
-        searchHost: 'https://www2.yggtorrent.se/',
+        host: 'https://www.yggtorrent.se',
+        searchHost: 'https://www2.yggtorrent.se',
     }
 };
 

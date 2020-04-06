@@ -11,8 +11,15 @@ async function main() {
 
   let lastLogin = null;
 
-  const a = await client.login();
-  console.log(a);
+  // const a = await client.login();
+  // console.log(a);
+  // console.log(YGG.jar);
+  try {
+    const search = await client.search('interstellar');
+    console.log(search);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 main();
