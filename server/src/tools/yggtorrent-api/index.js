@@ -1,4 +1,4 @@
-var request = require('request-cloudflare');
+var request = require('cloudscraper');
 var cheerio = require('cheerio');
 var jar = request.jar();
 const fs = require('fs');

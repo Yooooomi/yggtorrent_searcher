@@ -12,7 +12,7 @@ const URL = require('url');
 
 const removeAccents = require('remove-accents');
 
-const request = require('request-cloudflare');
+const request = require('cloudscraper');
 
 module.exports = () => {
   routes.get('/search/:search', async (req, res) => {
