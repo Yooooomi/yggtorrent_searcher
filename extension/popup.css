@@ -1,0 +1,51 @@
+
+body {
+    padding: 15px;
+    font-size: 0.9em;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+}
+
+.titles {
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    color: grey;
+    font-size: 0.8em;
+}
+
+#current {
+    margin-bottom: 15px;
+}
+
+#input {
+    flex: 8;
+    border: none;
+    padding: 5px;
+    border-radius: 6px;
+    outline: none;
+    background: #F5F6F7;
+    line-height: normal;
+}
+
+.input::placeholder {
+    line-height: normal;
+}
+
+#button {
+    background: #3F82F8;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    flex: 2;
+    margin-left: 15px;
+}
+
+#button:active {
+    background: rgba(63, 131, 248, 0.63);
+}

@@ -1,42 +1,43 @@
 
-const neededCookies = [
-  '__cfduid',
-  'remove_ads',
-  'cf_clearance',
-  '__ga',
-  '__cf_bm',
-  'ygg_',
-];
-
 chrome.runtime.onMessage.addListener((request, sender, sendReponse) => {
-  const { url, pageUrl, name } = request;
+  const { source, url, pageUrl, name, newIp, } = request;
 
-  chrome.cookies.getAll({}, async cookies => {
-    let finalCookies = cookies.map(cookie => {
-      if (neededCookies.some(e => e === cookie.name)) {
-        return `${cookie.name}=${cookie.value}`;
+  function download() {
+    chrome.storage.sync.get(async values => {
+      try {
+        let file = await fetch(url, {
+          credentials: 'include',
+        });
+        file = await file.blob();
+
+        const formData = new FormData();
+        formData.append('torrent', file);
+        formData.append('url', url);
+        formData.append('pageUrl', pageUrl);
+        formData.append('name', name);
+        await fetch(`${values.ip}/dl_from_ext`, {
+          method: 'POST',
+          body: formData,
+        });
+        sendReponse({ status: 'success' });
+      } catch (e) {
+        sendReponse({ status: 'failure' });
       }
-      return null;
     });
-    console.log(finalCookies);
-    finalCookies = finalCookies.filter(e => e).join('; ');
-    try {
-      const body = {
-        torrent: { url, pageUrl, name, },
-        cookies: finalCookies,
-      }
-      const res = await fetch('http://localhost:8081/dl_from_ext', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  }
+
+  async function updateIp() {
+    chrome.storage.sync.set({ ip: newIp }, () => {
       sendReponse({ status: 'success' });
-    } catch (e) {
-      sendReponse({ status: 'failure' });
-    }
-  });
+    });
+  }
+
+  if (source === 'download') {
+    download();
+  } else if (source === 'new_ip') {
+    updateIp();
+  }
+
   return true;
 });
 

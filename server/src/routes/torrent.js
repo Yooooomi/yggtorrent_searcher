@@ -6,15 +6,13 @@ const fs = require('fs');
 const path = require('path');
 const config = require('/app/config/config');
 const sanitize = require('sanitize-filename');
-
 const torrentsAPI = require('../tools/torrents');
 const URL = require('url');
-
 const removeAccents = require('remove-accents');
-
 const request = require('request-promise');
+const multer = require('multer')({ dest: torrentsAPI.getTempLocation() });
 
-async function downloadTorrent(name, url, pageUrl, cookies = null) {
+async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
   const sanitizedPageUrl = URL.parse(removeAccents(pageUrl));
   const paths = sanitizedPageUrl.pathname.split('/');
 
@@ -22,10 +20,14 @@ async function downloadTorrent(name, url, pageUrl, cookies = null) {
   paths.shift();
 
   const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], sanitizedPageUrl);
-  const tempPath = path.join(torrentsAPI.getTempLocation(), `${sanitize(name)}.torrent`);
   const filepath = path.join(dll, `${sanitize(name)}.torrent`);
-  await torrentsAPI.download(url, tempPath, cookies);
-  fs.renameSync(tempPath, filepath);
+  if (!alreadyExistingPath) {
+    const tempPath = path.join(torrentsAPI.getTempLocation(), `${sanitize(name)}.torrent`);
+    await torrentsAPI.download(url, tempPath);
+    fs.renameSync(tempPath, filepath);
+  } else {
+    fs.renameSync(alreadyExistingPath, filepath);
+  }
 }
 
 const onetorrent = Joi.object().keys({
@@ -35,16 +37,14 @@ const onetorrent = Joi.object().keys({
 });
 
 module.exports = () => {
-  const torrentSchema = Joi.object().keys({
-    torrent: onetorrent,
-    cookies: Joi.string().default(null),
-  }).required();
+  routes.post('/dl_from_ext', multer.single('torrent'), async (req, res) => {
+    const { name, url, pageUrl } = req.body;
 
-  routes.post('/dl_from_ext', validating(torrentSchema), async (req, res) => {
-    const { torrent, cookies } = req.value;
+    // console.log(req.file, req.body);
+    // console.log(fs.readFileSync(req.file.path).toString());
 
     try {
-      await downloadTorrent(torrent.name, torrent.url, torrent.pageUrl, cookies);
+      await downloadTorrent(name, url, pageUrl, req.file.path);
       return res.status(200).end();
     } catch (e) {
       console.log(e);

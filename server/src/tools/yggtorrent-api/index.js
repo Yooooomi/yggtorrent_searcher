@@ -34,7 +34,6 @@ class Ygg {
         'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7',
         cookie: cookies,
-        referer: 'https://www2.yggtorrent.se/torrent/application/formation/426208-tuto+comtuto+d%C3%A9tourage+photo+complexe+avec+les+couches+de+photoshop+avec+photoshop+2016+french+web-dl+1080p',
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
       },
       followAllRedirects: true,

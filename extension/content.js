@@ -7,7 +7,7 @@ const buttonSuccessContent = 'Downloaded';
 const buttonFailureContent = 'Failure';
 
 function download(button, url, pageUrl, name) {
-  chrome.runtime.sendMessage({ url, pageUrl, name }, function (response) {
+  chrome.runtime.sendMessage({ source: 'download', url, pageUrl, name }, function (response) {
     if (response.status === 'success') {
       button.textContent = buttonSuccessContent;
     } else {
@@ -21,6 +21,9 @@ function download(button, url, pageUrl, name) {
 
 function main() {
   const container = xpath('//table[@class="infos-torrent"]/tbody/tr/td[2]');
+  if (!container) {
+    return;
+  }
   const link = xpath('//table[@class="informations"]//a');
   const downloadLink = link.getAttribute('href');
   const name = link.textContent;
@@ -34,7 +37,9 @@ function main() {
 
 function listmain() {
   const container = xpath('//div[@class="table-responsive results"]//tbody');
-  console.log(container);
+  if (!container) {
+    return;
+  }
   container.childNodes.forEach(node => {
     if (node.nodeName !== 'TR') {
       return;
@@ -47,13 +52,11 @@ function listmain() {
     const pageUrl = workNode.childNodes[0].getAttribute('href');
     const downloadLink = `https://www2.yggtorrent.se/engine/download_torrent?id=${linkNode}`;
 
-    console.log(node, name.trim(), pageUrl, downloadLink)
-
     const button = document.createElement('a');
     button.textContent = defaultButtonContent;
     button.onclick = () => download(button, downloadLink, pageUrl, name);
 
-    workNode.setAttribute('style', 'width: 100%; display: flex; justify-content: space-between;');
+    button.setAttribute('style', 'float: right;');
     workNode.appendChild(button);
   });
 }
