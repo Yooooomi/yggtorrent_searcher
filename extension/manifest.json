@@ -4,7 +4,6 @@
   "description": "Download a torrent directly to your folder, on a remote machine",
   "manifest_version": 2,
   "permissions": [
-    "cookies",
     "storage",
     "*://*.yggtorrent.se/*"
   ],
@@ -20,5 +19,9 @@
       "matches": ["https://www2.yggtorrent.se/torrent/*", "https://www2.yggtorrent.se/engine/search*"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "icons": {
+    "16": "icons/favicon-16x16.png",
+    "32": "icons/favicon-32x32.png"
+  }
 }
