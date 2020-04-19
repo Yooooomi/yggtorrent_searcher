@@ -1,0 +1,20 @@
+{
+  "name": "YGG Torrent Searcher extension",
+  "version": "0.1",
+  "description": "Download a torrent directly to your folder, on a remote machine",
+  "manifest_version": 2,
+  "permissions": [
+    "cookies",
+    "*://*.yggtorrent.se/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www2.yggtorrent.se/torrent/*", "https://www2.yggtorrent.se/engine/search*"],
+      "js": ["content.js"]
+    }
+  ]
+}

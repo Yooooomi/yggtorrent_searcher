@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  server:
+    environment:
+      - STAGE=development
+    volumes:
+      - ./torrents:/data:z
+      - ./config/:/app/config
+      - ./server/src:/app/src

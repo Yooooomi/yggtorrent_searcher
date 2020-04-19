@@ -14,7 +14,44 @@ const removeAccents = require('remove-accents');
 
 const request = require('request-promise');
 
+async function downloadTorrent(name, url, pageUrl, cookies = null) {
+  const sanitizedPageUrl = URL.parse(removeAccents(pageUrl));
+  const paths = sanitizedPageUrl.pathname.split('/');
+
+  // Remove the empty string because path starts with /
+  paths.shift();
+
+  const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], sanitizedPageUrl);
+  const tempPath = path.join(torrentsAPI.getTempLocation(), `${sanitize(name)}.torrent`);
+  const filepath = path.join(dll, `${sanitize(name)}.torrent`);
+  await torrentsAPI.download(url, tempPath, cookies);
+  fs.renameSync(tempPath, filepath);
+}
+
+const onetorrent = Joi.object().keys({
+  name: Joi.string().required(),
+  url: Joi.string().required(),
+  pageUrl: Joi.string().required(),
+});
+
 module.exports = () => {
+  const torrentSchema = Joi.object().keys({
+    torrent: onetorrent,
+    cookies: Joi.string().default(null),
+  }).required();
+
+  routes.post('/dl_from_ext', validating(torrentSchema), async (req, res) => {
+    const { torrent, cookies } = req.value;
+
+    try {
+      await downloadTorrent(torrent.name, torrent.url, torrent.pageUrl, cookies);
+      return res.status(200).end();
+    } catch (e) {
+      console.log(e);
+      return res.status(500).end();
+    }
+  });
+
   routes.get('/search/:search', async (req, res) => {
     const { search } = req.params;
     const { sort, sortOrder } = req.query;
@@ -28,33 +65,14 @@ module.exports = () => {
   });
 
   const torrentsSchema = Joi.object().keys({
-    torrents: Joi.array().items(Joi.object().keys({
-      name: Joi.string().required(),
-      url: Joi.string().required(),
-      pageUrl: Joi.string().required(),
-    })).required(),
+    torrents: Joi.array().items(onetorrent).required(),
+    cookies: Joi.array(),
   }).required();
 
   routes.post('/dl', validating(torrentsSchema), async (req, res) => {
     const { torrents } = req.value;
 
-    let promises = torrents.map(async e => {
-      const url = URL.parse(removeAccents(e.pageUrl));
-      const paths = url.pathname.split('/');
-
-      // Remove the empty string because path starts with /
-      paths.shift();
-
-      const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], url);
-      const tempPath = path.join(config.tempLocation, sanitize(e.name) + '.torrent');
-      const filepath = path.join(dll, sanitize(e.name) + '.torrent');
-      try {
-        await torrentsAPI.download(e.url, tempPath);
-        fs.renameSync(tempPath, filepath);
-      } catch (err) {
-        console.log('Could not download ' + e.name, err);
-      }
-    });
+    let promises = torrents.map(async e => downloadTorrent(e.name, e.url, e.pageUrl));
     promises = await promises;
     return res.status(200).end();
   });

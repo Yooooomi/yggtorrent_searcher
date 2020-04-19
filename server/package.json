@@ -6,7 +6,7 @@
   "scripts": {
     "test": "docker-compose down --volumes && docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit",
     "dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
-    "start": "node src/server.js",
+    "start": "nodemon src/server.js",
     "start-docker": "docker-compose -f docker-compose.yml up --build",
     "lint": "eslint src/ --ext .js"
   },
@@ -29,6 +29,7 @@
     "joi": "^14.3.1",
     "mocha": "^6.2.2",
     "morgan": "^1.9.1",
+    "node-fetch": "^2.6.0",
     "papaparse": "^5.1.0",
     "remove-accents": "^0.4.2",
     "request": "^2.88.2",
