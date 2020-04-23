@@ -1,3 +1,37 @@
+function getStorage() {
+  return new Promise((res, rej) => {
+    chrome.storage.sync.get(res);
+  });
+}
+
+async function downloadTorrent(url, pageUrl, name) {
+  try {
+    let file = await fetch(url, {
+      credentials: 'include',
+    });
+    file = await file.blob();
+
+    const formData = new FormData();
+    formData.append('torrent', file);
+    formData.append('url', url);
+    formData.append('pageUrl', pageUrl);
+    formData.append('name', name);
+    const storage = await getStorage();
+    const res = await fetch(`${storage.ip}/dl_from_ext`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (res.status === 200) {
+      return ({ status: 'success' });
+    } else {
+      return ({ status: 'failure' });
+    }
+  } catch (e) {
+    console.error(e);
+    return ({ status: 'failure' });
+  }
+}
+
 function xpath(path, root = document) {
   return document.evaluate(path, root, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
@@ -6,17 +40,17 @@ const defaultButtonContent = 'Download to deluge';
 const buttonSuccessContent = 'Downloaded';
 const buttonFailureContent = 'Failure';
 
-function download(button, url, pageUrl, name) {
-  chrome.runtime.sendMessage({ source: 'download', url, pageUrl, name }, function (response) {
-    if (response.status === 'success') {
-      button.textContent = buttonSuccessContent;
-    } else {
-      button.textContent = buttonFailureContent;
-    }
-    setTimeout(() => {
-      button.textContent = defaultButtonContent;
-    }, 1000);
-  });
+async function download(button, url, pageUrl, name) {
+  button.textContent = 'Downloading';
+  const response = await downloadTorrent(url, pageUrl, name);
+  if (response.status === 'success') {
+    button.textContent = buttonSuccessContent;
+  } else {
+    button.textContent = buttonFailureContent;
+  }
+  setTimeout(() => {
+    button.textContent = defaultButtonContent;
+  }, 1000);
 }
 
 function main() {
