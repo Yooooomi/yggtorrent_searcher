@@ -17,6 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function onUpdate() {
   const newIp = input.value;
   chrome.storage.sync.set({ ip: newIp }, () => {
-    current.textContent = `Current IP: ${values.ip}`;
+    current.textContent = `Current IP: ${newIp}`;
   });
 }

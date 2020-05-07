@@ -36,6 +36,7 @@ function xpath(path, root = document) {
   return document.evaluate(path, root, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
+const notLoggedButtonContent = 'You must log in';
 const defaultButtonContent = 'Download to deluge';
 const buttonSuccessContent = 'Downloaded';
 const buttonFailureContent = 'Failure';
@@ -53,7 +54,13 @@ async function download(button, url, pageUrl, name) {
   }, 1000);
 }
 
+function isLoggedIn() {
+  const container = xpath('//a[@id="register"]');
+  return !Boolean(container);
+}
+
 function main() {
+  const logged = isLoggedIn();
   const container = xpath('//table[@class="infos-torrent"]/tbody/tr/td[2]');
   if (!container) {
     return;
@@ -64,12 +71,15 @@ function main() {
 
   const mybutton = document.createElement('a');
   mybutton.setAttribute('class', 'butt');
-  mybutton.textContent = defaultButtonContent;
-  mybutton.onclick = () => download(mybutton, downloadLink, document.URL, name);
+  mybutton.textContent = logged ? defaultButtonContent : notLoggedButtonContent;
+  if (logged) {
+    mybutton.onclick = () => download(mybutton, downloadLink, document.URL, name);
+  }
   container.appendChild(mybutton);
 }
 
 function listmain() {
+  const logged = isLoggedIn();
   const container = xpath('//div[@class="table-responsive results"]//tbody');
   if (!container) {
     return;
@@ -87,8 +97,10 @@ function listmain() {
     const downloadLink = `https://www2.yggtorrent.se/engine/download_torrent?id=${linkNode}`;
 
     const button = document.createElement('a');
-    button.textContent = defaultButtonContent;
-    button.onclick = () => download(button, downloadLink, pageUrl, name);
+    button.textContent = logged ? defaultButtonContent : notLoggedButtonContent;
+    if (logged) {
+      button.onclick = () => download(button, downloadLink, pageUrl, name);
+    }
 
     button.setAttribute('style', 'float: right;');
     workNode.appendChild(button);
