@@ -1,34 +1,24 @@
 # YGGTorrent searcher
 
-YGGTorrent is a client / server application to allow the user to search for torrents through a simple interface and download `.torrent` files.
+YGGTorrent is a server/extension application that allows downloading file from the extension provided
 
 It is particularly useful if you have a _seedbox_ watching for new file in a given folder
 
 ### Getting started
 
-Configure the `config.js` file and edit your `username` and `password` without changing the download location (see below)
+Have a look at the `config/config.js` file to indicate, according to the URL, the final path of the file
 
-> Please note that if you don't want to expose your password, it's still a JS file so you can provide it through the environment and access it through `process.env.YOUR_VARIABLE`
+- Download the YGG Torrent Downloader extension [here](https://chrome.google.com/webstore/detail/ygg-torrent-searcher-exte/ljpelodjbjjlolngdkilhgjcajlknhcj)
+- Set the IP of your server by clicking the extension and hitting update once the input has been filled
 
-> You can choose to run the searcher either in Docker or natively
+> Note that you can load the extension unpackaged through [chrome://extensions](chrome://extensions) in developper mode with the `extension/manifest.json` of the repo
 
-> Docker will launch two containers containing the client and the server
+### Usage
 
-##### Configuration
+After the extension is installed, you can see download links added to the yggtorrent website that allows you to download directly to the application.
 
-To choose your download location you need to edit the `config.js` file.
-Edit the `downloadLocation` variable. You can of course provide an environment variable.
-
-The `downloadLocation` variable can either be a string or a function.
- - A String will save all the files at the given path
- - A function will take three arguments: `category`, `subcategory` and `fullpath` so you can logically store your .torrent files depending on their category
-
-> If ran in Docker, make sure the locations are valid and are mounted as a volume
-
-You can edit the CORS either by providing them in the environment under the form of `CORS_WHITELIST=http://localhost:5000,http://localhost:3000` _or_ by editing the `config.js` file.
-You can specify `all` if you don't want to bother with CORS
-
+> You must be logged in in order for the extension to work properly
 
 #### Responsibility
 
-I am not responsible for any pursuit regarding illegal torrents download
+I am not responsible for any pursuit regarding illegal torrent downloads

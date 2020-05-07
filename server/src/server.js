@@ -9,7 +9,6 @@ const helmet = require('helmet');
 
 const logger = require('./tools/logger');
 
-const API = require('./tools/torrents');
 const config = require('/app/config/config');
 const initer = require('./tools/initer');
 
@@ -56,7 +55,6 @@ app.use(morgan('dev', {
   stream: logger.stream,
 }));
 
-app.use(require('./routes/health')());
 app.use(require('./routes/torrent')());
 
 app.get('/helloworld', (req, res) => {
@@ -70,8 +68,6 @@ if (!initer()) {
 
 const port = process.env.SERVER_PORT || 8081;
 
-API.init().then(() => {
-  app.listen(port, () => logger.info(`Listening on ${port}`));
-});
+app.listen(port, () => logger.info(`Listening on ${port}`));
 
 module.exports = app;

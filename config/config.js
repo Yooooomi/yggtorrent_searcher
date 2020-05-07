@@ -22,16 +22,6 @@ const config = {
     // Environment variable is named CORS_WHITELIST
     // Setting 'all' will just allow all cors
     cors: 'all',
-
-    // YGGTorrent credentials
-    username: 'Obsinex',
-    password: '66Darkreblochon',
-
-    // Change this if YGG changes domain name
-    ygg: {
-        host: 'https://www.yggtorrent.se',
-        searchHost: 'https://www2.yggtorrent.se',
-    }
 };
 
 module.exports = config;
