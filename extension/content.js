@@ -81,6 +81,7 @@ function main() {
 function listmain() {
   const logged = isLoggedIn();
   const container = xpath('//div[@class="table-responsive results"]//tbody');
+  
   if (!container) {
     return;
   }
@@ -94,7 +95,7 @@ function listmain() {
 
     const name = workNode.textContent;
     const pageUrl = workNode.childNodes[0].getAttribute('href');
-    const downloadLink = `https://www2.yggtorrent.se/engine/download_torrent?id=${linkNode}`;
+    const downloadLink = `https://${location.host}/engine/download_torrent?id=${linkNode}`;
 
     const button = document.createElement('a');
     button.textContent = logged ? defaultButtonContent : notLoggedButtonContent;
