@@ -11,13 +11,13 @@ const multer = require('multer')({
 });
 
 async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
-  const sanitizedPageUrl = URL.parse(removeAccents(pageUrl));
+  const sanitizedPageUrl = URL.parse(removeAccents(decodeURIComponent(pageUrl)));
   const paths = sanitizedPageUrl.pathname.split('/');
 
   // Remove the empty string because path starts with /
   paths.shift();
 
-  const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], sanitizedPageUrl);
+  const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], sanitizedPageUrl.pathname);
   const filepath = path.join(dll, `${sanitize(name)}.torrent`);
   if (!alreadyExistingPath) {
     const tempPath = path.join(torrentsAPI.getTempLocation(), `${sanitize(name)}.torrent`);
