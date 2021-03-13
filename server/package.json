@@ -38,7 +38,7 @@
     "sanitize-filename": "^1.6.3",
     "supertest": "^4.0.2",
     "winston": "^3.2.1",
-    "xmldom": "^0.1.27",
+    "xmldom": "^0.5.0",
     "xpath": "0.0.27"
   }
 }
