@@ -6,5 +6,5 @@ services:
       - STAGE=development
     volumes:
       - ./torrents:/data:z
-      - ./config/:/app/config
-      - ./server/src:/app/src
+      - ./config/:/config
+      - ./server/src:/src

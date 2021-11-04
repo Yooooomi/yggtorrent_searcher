@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bash
+
+mkdir /app/downloads
+chown -R abc:abc /app/downloads
