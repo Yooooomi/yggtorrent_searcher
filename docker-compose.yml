@@ -9,7 +9,8 @@ services:
       - PGID=1000
       - CORS_WHITELIST=all
     volumes:
-      - /home/ubuntu/Documents/torrents/downloads/torrents:/data:z
-      - ./config/:/config
+      - ./torrents:/data:z
+      # - /home/ubuntu/Documents/torrents/downloads/torrents:/data:z
+      - ./config/:/app/config
     ports:
-      - "8081:8081"
+      - "8002:8081"

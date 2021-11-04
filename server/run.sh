@@ -8,4 +8,4 @@ fi
 
 echo "Server port: ${SERVER_PORT}"
 
-npm start
+cd /app/ && npm start

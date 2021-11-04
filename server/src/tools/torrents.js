@@ -1,4 +1,4 @@
-const config = require('/config/config');
+const config = require('/app/config/config');
 
 const getDownloadLocation = (category, subcategory, fullpath) => {
   if (process.env.STAGE === 'development') {

@@ -9,7 +9,7 @@ const helmet = require('helmet');
 
 const logger = require('./tools/logger');
 
-const config = require('/config/config');
+const config = require('/app/config/config');
 const initer = require('./tools/initer');
 
 let allCors = false;
