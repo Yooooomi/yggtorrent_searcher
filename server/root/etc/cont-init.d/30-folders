@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv bash
 
 mkdir /app/downloads
+chown -R abc:abc /data
 chown -R abc:abc /app/.npm
 chown -R abc:abc /app/src

@@ -5,6 +5,6 @@ services:
     environment:
       - STAGE=development
     volumes:
-      - ./torrents:/data:z
+      - ./torrents:/data
       - ./config/:/config
       - ./server/src:/src
