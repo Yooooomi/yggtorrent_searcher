@@ -7,4 +7,4 @@ services:
     volumes:
       - ./torrents:/data
       - ./config/:/config
-      - ./server/src:/src
+      - ./server/src:/app/src

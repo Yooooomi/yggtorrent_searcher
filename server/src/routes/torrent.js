@@ -1,26 +1,35 @@
-const routes = require('express').Router();
-const fs = require('fs');
-const path = require('path');
-const sanitize = require('sanitize-filename');
-const torrentsAPI = require('../tools/torrents');
-const URL = require('url');
-const removeAccents = require('remove-accents');
-const multer = require('multer')({
+const routes = require("express").Router();
+const fs = require("fs");
+const path = require("path");
+const sanitize = require("sanitize-filename");
+const torrentsAPI = require("../tools/torrents");
+const URL = require("url");
+const removeAccents = require("remove-accents");
+const multer = require("multer")({
   dest: torrentsAPI.getTempLocation(),
   limits: { files: 1, fileSize: 10485760 }, // Limits to 1 file of 10Mo
 });
 
 async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
-  const sanitizedPageUrl = URL.parse(removeAccents(decodeURIComponent(pageUrl)));
-  const paths = sanitizedPageUrl.pathname.split('/');
+  const sanitizedPageUrl = URL.parse(
+    removeAccents(decodeURIComponent(pageUrl))
+  );
+  const paths = sanitizedPageUrl.pathname.split("/");
 
   // Remove the empty string because path starts with /
   paths.shift();
 
-  const dll = torrentsAPI.getDownloadLocation(paths[1], paths[2], sanitizedPageUrl.pathname);
+  const dll = torrentsAPI.getDownloadLocation(
+    paths[1],
+    paths[2],
+    sanitizedPageUrl.pathname
+  );
   const filepath = path.join(dll, `${sanitize(name)}.torrent`);
   if (!alreadyExistingPath) {
-    const tempPath = path.join(torrentsAPI.getTempLocation(), `${sanitize(name)}.torrent`);
+    const tempPath = path.join(
+      torrentsAPI.getTempLocation(),
+      `${sanitize(name)}.torrent`
+    );
     await torrentsAPI.download(url, tempPath);
     fs.renameSync(tempPath, filepath);
   } else {
@@ -29,8 +38,14 @@ async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
 }
 
 module.exports = () => {
-  routes.post('/dl_from_ext', multer.single('torrent'), async (req, res) => {
-    const { name, url, pageUrl } = req.body;
+  routes.post("/dl_from_ext", multer.single("torrent"), async (req, res) => {
+    const { name, url, pageUrl, isBase64 } = req.body;
+
+    if (isBase64) {
+      let buffer = fs.readFileSync(req.file.path);
+      buffer = Buffer.from(buffer.toString(), "base64");
+      fs.writeFileSync(req.file.path, buffer);
+    }
 
     try {
       await downloadTorrent(name, url, pageUrl, req.file.path);
