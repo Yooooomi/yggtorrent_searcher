@@ -4,13 +4,13 @@ services:
   server:
     build: server/
     restart: always
+    user: "1000:1000"
     environment:
       - PUID=1000
       - PGID=1000
       - CORS_WHITELIST=all
     volumes:
-      # - ./torrents:/data
-      - /home/ubuntu/Documents/torrents/downloads/torrents:/data
+      - /media/disk/torrents:/data
       - ./config/:/app/config
     ports:
       - "8002:8081"

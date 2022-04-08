@@ -4,17 +4,30 @@ const config = {
 
   // downloadLocation: '/app/downloads',
 
-  tempLocation: "/tmp",
+  tempLocation: '/data/tmp',
 
   // Function to predict where to store the .torrent file
   // url, category, subcategory will never have accents
   downloadLocation: (category, subcategory, fullpath) => {
-    if (category === "film-video" || category === "filmvideo") {
-      if (subcategory === "serie-tv" || subcategory === "serietv")
-        return "/data/torrents/series";
-      if (subcategory === "film") return "/data/torrents/films";
-    }
-    return "/data/torrents/misc";
+      category = category.replace(/-/g, '');
+      subcategory = subcategory.replace(/-/g, '');
+      const series = [
+          'serietv',
+          'emissiontv',
+          'animationserie',
+      ];
+      const films = [
+          'film',
+          'spectacle',
+          'animation',
+          'documentaire',
+      ];
+      console.log(category, subcategory, fullpath);
+      if (category === 'filmvideo') {
+          if (series.includes(subcategory)) return '/data/queue/series';
+          if (films.includes(subcategory)) return '/data/queue/films';
+      }
+      return '/data/queue/misc';
   },
 
   // The application will default the CORS to this variable,
@@ -22,7 +35,7 @@ const config = {
   // CORS has to be of the form http://localhost:5000,http://localhost:3000
   // Environment variable is named CORS_WHITELIST
   // Setting 'all' will just allow all cors
-  cors: "all",
+  cors: 'all',
 };
 
 module.exports = config;
