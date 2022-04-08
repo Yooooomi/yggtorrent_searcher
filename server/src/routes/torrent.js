@@ -1,4 +1,4 @@
-const routes = require("express").Router();
+const router = require("express").Router();
 const fs = require("fs");
 const path = require("path");
 const sanitize = require("sanitize-filename");
@@ -10,7 +10,7 @@ const multer = require("multer")({
   limits: { files: 1, fileSize: 10485760 }, // Limits to 1 file of 10Mo
 });
 
-async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
+async function downloadTorrent(name, pageUrl, alreadyExistingPath) {
   const sanitizedPageUrl = URL.parse(
     removeAccents(decodeURIComponent(pageUrl))
   );
@@ -25,36 +25,27 @@ async function downloadTorrent(name, url, pageUrl, alreadyExistingPath = null) {
     sanitizedPageUrl.pathname
   );
   const filepath = path.join(dll, `${sanitize(name)}.torrent`);
-  if (!alreadyExistingPath) {
-    const tempPath = path.join(
-      torrentsAPI.getTempLocation(),
-      `${sanitize(name)}.torrent`
-    );
-    await torrentsAPI.download(url, tempPath);
-    fs.renameSync(tempPath, filepath);
-  } else {
-    fs.renameSync(alreadyExistingPath, filepath);
-  }
+  fs.renameSync(alreadyExistingPath, filepath);
 }
 
-module.exports = () => {
-  routes.post("/dl_from_ext", multer.single("torrent"), async (req, res) => {
-    const { name, url, pageUrl, isBase64 } = req.body;
+router.post("/dl_from_ext", multer.single("torrent"), async (req, res) => {
+  const { name, pageUrl, isBase64 } = req.body;
 
-    if (isBase64) {
-      let buffer = fs.readFileSync(req.file.path);
-      buffer = Buffer.from(buffer.toString(), "base64");
-      fs.writeFileSync(req.file.path, buffer);
-    }
+  if (isBase64) {
+    let buffer = fs.readFileSync(req.file.path);
+    buffer = Buffer.from(buffer.toString(), "base64");
+    fs.writeFileSync(req.file.path, buffer);
+  }
 
-    try {
-      await downloadTorrent(name, url, pageUrl, req.file.path);
-      return res.status(200).end();
-    } catch (e) {
-      console.log(e);
-      return res.status(500).end();
-    }
-  });
+  try {
+    await downloadTorrent(name, pageUrl, req.file.path);
+    return res.status(200).end();
+  } catch (e) {
+    console.log(e);
+    return res.status(500).end();
+  }
+});
 
-  return routes;
-};
+module.exports = router;
+
+
